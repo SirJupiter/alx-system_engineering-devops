@@ -1,0 +1,2 @@
+#!/bin/bash
+ls -Ap | awk '{ORS = NR % 2 ? "," : "\n"} {if ($0 == ".." || $0 == ".") a = a $0 ","; else if ($0 ~ /^[0-9a-zA-Z]/) b = b $0 ","} END {print a b}'
