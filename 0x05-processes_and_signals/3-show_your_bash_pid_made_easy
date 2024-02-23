@@ -1,0 +1,12 @@
+#!/usr/bin/env bash
+# This script displays the PID, along wiht the process name
+script_pid=$$
+
+for PID in $(pgrep -f bash)
+do
+	if [ $PID != $script_pid ]
+	then
+		process_name=$(ps -p $PID -o comm=)
+		echo "$PID $process_name"
+	fi
+done
