@@ -1,0 +1,41 @@
+https://photos.app.goo.gl/pDu5KzYT3MzTQtwW6
+
+# Additional elements
+
+- 3 firewalls
+- SSL certificate
+- 3 monitoring clients
+
+# Firewalls
+
+Firewalls helps us filter traffic preventing unauthorized traffic to our servers and limiting DDoS attacks
+
+# SSL
+
+The secure socket layer certificate encryts data to and from our servers to prevent leakage if intercepted in transit
+
+# Monitoring
+
+Monitoring services helps us detect issues, measure performance, and get alerted about system anomalies or failures. They can allow us fix issues proactively.
+
+# How monitoring tools collect data
+
+Monitoring clients installed on the servers collect data and send it to the central monitoring system in real-time or at specified intervals. The monitoring tool can then aggregate, analyze, and visualize this data, potentially raising alerts based on certain thresholds or anomalies.
+
+# Monitoring QPS
+
+To monitor queries per second, each server on our stack will send a log to the monitoring service each time it is queried.
+
+# Issues
+
+## Terminating SSL at load balancer
+
+While SSL termination at the load balancer can improve the performance of web and application servers by offloading the computational load of encryption and decryption, it introduces a point where traffic is unencrypted (from the load balancer to the servers). This internal traffic could potentially be intercepted.
+
+## Having one write-enabled MySQL server
+
+Having a single MySQL server that handles all writes creates a SPOF. If it goes down, data cannot be written to the database, which could stop many functionalities of the website.
+
+## Identical Servers
+
+Having identical servers can lead to resource contention, e.g if both servers need to write to the same database. It can also mean that if one service is compromised, all services on that server could be affected.

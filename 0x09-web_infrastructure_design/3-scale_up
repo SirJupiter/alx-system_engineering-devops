@@ -1,0 +1,11 @@
+https://photos.app.goo.gl/XEJoGTmuMGJ98to66
+
+# Additional elements
+
+- 1 server
+- 1 firewall
+
+why?
+The additional server allows us to have a sum of four server. Now we can assign dedicated servers to each of the services within our stack. One for load balancing, one for web servers, one for app servers, one for databases.
+
+The new infrastructure allows us to achieve seperation of concern and scale each service within its cluster as needed.

@@ -1,0 +1,42 @@
+https://photos.app.goo.gl/bCrGaEW5gcp5NeTo9
+
+# Additional components
+
+- 1 duplicate server
+- 1 load balancer
+
+why?
+A duplicate server and load balancer helps us mitigate some of the issues identified with our single server infrastructure.
+
+The load balancer helps split tasks anong both servers, the alternate server helps eliminate SPOF (if we ignore the load balancer), keeps the system up during maintenance, and at least doubles how much traffic we can handle
+
+# Load balancing algorithm
+
+Resource-based: Measures server's availability, memory, and cpu, before distributing traffic to it
+
+# Active-Active Active-Passive
+
+With Active-Active, both servers are handling traffic simultaneously, thus sharing the load. This maximizes resource utilization and provides resilience if one server fails; traffic can continue to be served by the remaining server(s). Active-Passive involves having a standby server that only takes over if the primary server fails. In this design, we would prefer Active-Active for better resource utilization and failover capabilities.
+
+# Database Primary-Replica
+
+In a Primary-Replica database setup, one database server acts as the primary node that handles all write operations, while the replica nodes sync with the primary to mirror the data. The replicas can handle read operations to distribute the query load.
+
+# Difference between primary node and replica node
+
+In our application, the primary node is configured to handle all the write, update, and delete operations. The replica node handles read operations and syncs with the primary node for the other operations. This keeps both nodes consistent
+
+# Issues
+
+## SPOF
+
+The load balancer and the primary database are single points of failure
+
+## Security
+
+The traffic is not configured with HTTPS, hence making server-client communication insecure
+Without a firewall traffic is not filtered and the system is vulnerable to unauthorized access and DDoS attacks
+
+## Monitoring
+
+Without monitoring, systems can go down without the admin knowing.
