@@ -1,7 +1,7 @@
 # creates a file in /tmp
 
 file {'school':
-  ensure  => 'file',
+  ensure  => 'present',
   group   => 'www-data',
   mode    => '0744',
   owner   => 'www-data',
