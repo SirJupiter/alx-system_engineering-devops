@@ -1,6 +1,6 @@
 # creates a file in /tmp
 
-file { '/tmp/school':
+file { 'school':
   ensure  => 'file',
   group   => 'www-data',
   mode    => '0744',
