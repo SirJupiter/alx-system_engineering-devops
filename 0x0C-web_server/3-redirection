@@ -7,19 +7,12 @@ sudo apt-get update && sudo apt-get install -y nginx
 # Restart Nginx
 sudo service nginx restart
 
-# Check if Nginx is running
-if ! pgrep -x "nginx" > /dev/null
-then
-    echo "Nginx failed to start" >&2
-    exit 1
-fi
-
 # Give user ownership to website files for ease of editing
 sudo chown -R "$USER":"$USER" /var/www/html/*
 sudo chmod -R 755 /var/www
 
 # Configure redirection
-sudo sed -i '/listen 80 default_server/a rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4/ permanent;' /etc/nginx/sites-available/default
+sudo sed -i '24i\       rewrite ^/redirect_me https://www.youtube.com/watch?v=QH2-TGUlwu4 permanent;' /etc/nginx/sites-available/default
 
 # Restart Nginx
 sudo service nginx restart
