@@ -11,8 +11,8 @@ sudo service nginx restart
 sudo ufw allow 'Nginx HTTP'
 
 # Give user ownership to website files for ease of editing
-sudo chown -R "$USER":"$USER" /var/www/html/*
-sudo chmod -R 755 /var/www
+# sudo chown -R "$USER":"$USER" /var/www/html/*
+# sudo chmod -R 755 /var/www
 
 # Configure redirection
 new_string="server_name _;\n\tlocation /redirect_me {\n\t\trewrite ^\/redirect_me https:\/\/www.youtube.com permanent;\n\t}"
