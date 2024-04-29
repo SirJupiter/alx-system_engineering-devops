@@ -17,13 +17,16 @@ if ! pgrep -x "nginx" > /dev/null; then
 fi
 
 # Configure default Nginx page
-sudo echo "Hello World!" > /var/www/html/index.html
+echo "Hello World!" | sudo tee /var/www/html/index.html
+
+#Restart Nginx
+sudo service nginx restart
 
 # Test Nginx
 curl --silent http://localhost | grep -Fq 'Hello World!'
 
 # Check if curl output contains "Hello World!"
-if [ $? -ne 0 ]; then  # if the status code  was not 0, an error occurred
+if ! curl --silent http://localhost | grep -Fq 'Hello World!'; then  # if the status code  was not 0, an error occurred
     echo "Failed to configure the default Nginx page" >&2
     exit 1
 else
