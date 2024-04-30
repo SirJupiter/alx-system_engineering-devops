@@ -7,47 +7,16 @@ sudo apt-get update && sudo apt-get install -y nginx
 # Start nginx
 sudo service nginx start
 
-# Directive for redirection
-redirect_directive="        location /redirect_me {\n\treturn 301 https://www.youtube.com;\n\t}"
-
-#Search for the line 'service_name _;' and append directive after it
-if ! sudo sed -i '/server_name _;/a '"$redirect_directive" /etc/nginx/sites-available/default; then
-	echo "Error: could not configure redirection"
-else
-	echo "Redirection successful!"
-fi
-
-# Error page directive
-error_page_directive="        error_page 404 /page_error_404.html;\n\tlocation = /page_error_404.html {\n\troot /usr/share/nginx/html; \n\tinternal;\n\t}\n"
-
-# Search for the line 'server_name _;' and append directive after it
-if ! sudo sed -i "/server_name _;/a $error_page_directive" /etc/nginx/sites-available/default; then
-	echo "Error: could not configure 404 page"
-else
-	echo "404 page configuration successful!"
-fi
+echo "Hello World!" | sudo tee  /var/www/html/index.html
 
 # Configure Nginx to add custom header to its HTTP response
 custom_header="add_header X-Served-By \$hostname;"
 
 # Use sed to insert the header after 'server {'
-if ! sudo sed -i '0,/server {/s//server {\n\t'"$custom_header"'/' /etc/nginx/sites-available/default; then
-	echo "Error: could not configure custom header"
-else
-	echo "Custom header configuration successful!"
-fi
+sudo sed -i '0,/server {/s//server {\n\t'"$custom_header"'/' /etc/nginx/sites-available/default
 
 # Create a symbolic link to enable the configuration
 sudo ln -s -f /etc/nginx/sites-available/default /etc/nginx/sites-enabled/
-
-#Test Nginx configuration to ensure no syntax errors
-echo "Checking Nginx configuration..."
-if ! sudo nginx -t; then
-	echo "Nginx configuration has some issues!"
-	exit 1
-else
-	echo "Configuration is good"
-fi
 
 # Restart Nginx
 sudo service nginx restart
