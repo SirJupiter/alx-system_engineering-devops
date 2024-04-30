@@ -42,7 +42,7 @@ EOF
 
 # Restart HAProxy to apply changes
 echo "Restarting HAProxy..."
-sudo service restart haproxy
+sudo service haproxy restart
 
 #Enable HaProxy to start on boot
 echo "Enabling HAProxy on boot..."
