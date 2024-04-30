@@ -1,17 +1,51 @@
 #!/usr/bin/env bash
-# creating a load balancing
-sudo apt update
-sudo apt install -y haproxy
-sudo systemctl start haproxy
-sudo systemctl enable haproxy
+# Install and configure HAproxy on your lb-01 server; Configure HAproxy so that it send traffic to web-01 and web-02; Distribute requests using a roundrobin algorithm; Make sure that HAproxy can be managed via an init script; Make sure that your servers are configured with the right hostnames: [STUDENT_ID]-web-01 and [STUDENT_ID]-web-02. If not, follow this tutorial.
+
+# Check if package passed as argument is already installed or not
+function install() {
+	if ! command -v "$1" &> /dev/null; then
+		echo "--	Installing: $1	--"
+		if sudo apt update -y -qq && sudo apt install -y "$1" -qq; then
+			echo "--	HAProxy installation successful!	--"
+		fi
+		echo -e "\n"
+	else
+		echo "--	${1} is already installed	--"
+	fi
+}
+
+# Call the install function and pass haproxy for installation
+install haproxy
 
 # Creating a backup of the configuration file
 sudo cp /etc/haproxy/haproxy.cfg /etc/haproxy/haproxy.cfg.backup
 
-# Appending frontend configuration
-sudo sed -i "$ a\\\n\nfrontend myfrontend\n\tbind :80\n\tdefault_backend myservers" /etc/haproxy/haproxy.cfg
+# Configure HAProxy
+sudo tee /etc/haproxy/haproxy.cfg <<EOF
+defaults
+	log global
+	mode http
+	option httplog
+	timeout connect 5000ms
+	timeout client  10000ms
+	timeout server  10000ms
+	timeout http-request 10000ms
 
-# Appending backend configuration
-sudo sed -i "$ a\\\n\nbackend myservers\n\tserver server1 107.23.92.1:80 check\n\tserver server2 100.26.249.41:80 check" /etc/haproxy/haproxy.cfg
+frontend myfrontend
+    bind *:80
+    default_backend myservers
 
-sudo service haproxy restart
+backend myservers
+	server 530453-web-01 54.145.81.146:80 check
+	server 530453-web-02 18.207.234.98:80 check
+EOF
+
+# Restart HAProxy to apply changes
+echo "Restarting HAProxy..."
+sudo service restart haproxy
+
+#Enable HaProxy to start on boot
+echo "Enabling HAProxy on boot..."
+sudo systemctl enable haproxy
+
+echo "Installation complete!"
