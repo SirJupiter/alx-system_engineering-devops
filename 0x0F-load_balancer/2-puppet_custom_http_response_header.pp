@@ -5,7 +5,7 @@
 
 # Update system
 exec { 'update ubuntu system':
-  command     => '/usr/bin/sudo /usr/sbin/apt-get update',
+  command     => 'apt-get update',
 }
 
 # Install nginx
@@ -19,30 +19,9 @@ service { 'nginx':
   enable => true,
 }
 
-# Directive for redirection
-$redirect_directive = "location /redirect_me {
-  return 301 https://www.youtube.com;
-}"
-
-# Append redirection directive to nginx configuration
-file_line { 'nginx_redirect':
-  path   => '/etc/nginx/sites-available/default',
-  line   => $redirect_directive,
-  before => 'server_name _;',
-}
-
-# Error page directive
-$error_page_directive = "error_page 404 /page_error_404.html;
-location = /page_error_404.html {
-  root /usr/share/nginx/html;
-  internal;
-}"
-
-# Append error page directive to nginx configuration
-file_line { 'nginx_error_page':
-  path  => '/etc/nginx/sites-available/default',
-  line  => $error_page_directive,
-  after => 'server_name _;',
+# Create index.html and add "Hello World!" to it
+exec { 'create index.html':
+  command  => 'echo "Hello World!" | /var/www/html/index.html',
 }
 
 # Add custom header to nginx configuration
