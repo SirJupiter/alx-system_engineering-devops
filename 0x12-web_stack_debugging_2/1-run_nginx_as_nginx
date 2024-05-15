@@ -1,4 +1,4 @@
-#!/usr/bib/env bash
+#!/usr/bin/env bash
 # Fix this container so that Nginx is running as the nginx user.
 
 # Requirements:
@@ -11,8 +11,7 @@
 sed -i 's/user\s*nginx;/user nginx nginx;/' /etc/nginx/nginx.conf
 
 # Restart Nginx
-# nginx -s reload
-su nginx -s /bin/bash -c 'service nginx restart'
+nginx -s reload
 
 # Verify Nginx is running as nginx user
 ps auxff | grep ngin[x]
