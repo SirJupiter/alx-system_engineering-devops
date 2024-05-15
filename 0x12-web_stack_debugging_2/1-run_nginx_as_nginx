@@ -13,6 +13,3 @@ sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
 
 # Restart Nginx
 nginx -s reload
-
-# Verify Nginx is running as nginx user
-ps auxff | grep ngin[x]
