@@ -10,7 +10,7 @@
 
 # sed -i 's/user\s*nginx;/user nginx nginx;/' /etc/nginx/nginx.conf
 sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
-sed -Ei 's/(listen (\[::\]:)?80) /\180 /' /etc/nginx/sites-enabled/default
 
 # Restart Nginx
-nginx -s reload
+# nginx -s reload
+su nginx -s /bin/bash -c 'service nginx restart'
