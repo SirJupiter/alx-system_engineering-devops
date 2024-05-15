@@ -8,7 +8,8 @@
 # You cannot use apt-get remove
 # Write a Bash script that configures the container to fit the above requirements
 
-sed -i 's/user\s*nginx;/user nginx nginx;/' /etc/nginx/nginx.conf
+# sed -i 's/user\s*nginx;/user nginx nginx;/' /etc/nginx/nginx.conf
+sed -Ei 's/\s*#?\s*user .*/user nginx;/' /etc/nginx/nginx.conf
 
 # Restart Nginx
 nginx -s reload
