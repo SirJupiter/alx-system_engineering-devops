@@ -15,7 +15,8 @@ if __name__ == "__main__":
         user_res = requests.get(api_user).json()
         todo_res = requests.get(api_todo, params={"userId": argv[1]}).json()
 
-        name = user_res.get("name")
+        # print(user_res)
+        name = user_res.get("username")
 
         # for todo in todo_res:
         #     print(todo.get('userId'), todo.get('username'),
