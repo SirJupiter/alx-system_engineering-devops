@@ -12,6 +12,7 @@ if __name__ == "__main__":
 
     user_res = requests.get(api_user).json()
 
+    # Testing to see what is in user_res
     # for user in user_res:
     #     print(user)
 
