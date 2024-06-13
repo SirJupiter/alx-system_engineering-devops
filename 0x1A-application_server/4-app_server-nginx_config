@@ -56,12 +56,12 @@ server {
 
 		# Serve /airbnb-dynamic/number_odd_or_even/(any integer) on AirBnB_clone_v2
         location ~ /airbnb-dynamic/number_odd_or_even/(\d+)$ {
-        proxy_pass http://127.0.0.1:5001/number_odd_or_even/$1;
+        proxy_pass http://0.0.0.0:5001/number_odd_or_even/$1;
         }
 
 		 # Serve AirBnB_clone_v3 API
         location /api/ {
-        proxy_pass http://127.0.0.1:5002/api;
+        proxy_pass http://0.0.0.0:5002/api;
         }
 
         error_page 404 /page_error_404.html;
